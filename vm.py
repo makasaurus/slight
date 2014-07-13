@@ -41,6 +41,30 @@ class VM:
                 print b,a
                 self.push(b-a)
 
+            elif self.pMem[self.pc] == opcodes['IMUL']:
+                a = self.pop()
+                b = self.pop()
+                self.push(a*b)
+
+            elif self.pMem[self.pc] == opcodes['IDIV']:
+                a = self.pop()
+                b = self.pop()
+                self.push(int(b/a))
+
+            elif self.pMem[self.pc] == opcodes['AND']:
+                a = self.pop()
+                b = self.pop()
+                self.push(1 if a and b else 0)
+
+            elif self.pMem[self.pc] == opcodes['OR']:
+                a = self.pop()
+                b = self.pop()
+                self.push(1 if a or b else 0)
+
+            elif self.pMem[self.pc] == opcodes['NOT']:
+                a = self.pop()
+                self.push(0 if a else 1)
+
             elif self.pMem[self.pc] == opcodes['IPRINT']:
                 print self.peek()
 
@@ -67,12 +91,7 @@ class VM:
 
 lex = Lex()
 
-
-source = "ipush 2\n" \
-         "ipush 4\n" \
-         "iadd\n" \
-         "iprint\n" \
-         "halt"
+source = open("program.sl", 'r').read()
 
 program =  lex.encode(source)
 
