@@ -1,4 +1,6 @@
 from ops import *
+from lex import *
+
 
 class VM:
     def loadProgram(self, program):
@@ -62,6 +64,17 @@ class VM:
 
         self.pc = 0
         self.sp = 0
+
+lex = Lex()
+
+
+source = "ipush 2\n" \
+         "ipush 4\n" \
+         "iadd\n" \
+         "iprint\n" \
+         "halt"
+
+program =  lex.encode(source)
 
 vm = VM()
 
