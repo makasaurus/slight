@@ -14,6 +14,10 @@ class VM:
         self.sp-=1
         return x
 
+    def peek(self):
+        x = self.stack[self.sp]
+        return x
+
     def run(self):
 
         while not self.halt:
@@ -29,13 +33,25 @@ class VM:
                 b = self.pop()
                 self.push(a+b)
 
+            elif self.pMem[self.pc] == opcodes['ISUB']:
+                a = self.pop()
+                b = self.pop()
+                print b,a
+                self.push(b-a)
+
             elif self.pMem[self.pc] == opcodes['IPRINT']:
-                print self.pop()
+                print self.peek()
 
             elif self.pMem[self.pc] == opcodes['HALT']:
                 self.halt = 1
 
+            else:
+                print 'Unrecognized instruction, halting.'
+                self.halt = 1
+
             self.pc+=1
+            # print self.pc, '@', self.sp, self.stack
+
 
     def __init__(self):
         self.stack = [None]*(1024*4)
@@ -46,8 +62,6 @@ class VM:
 
         self.pc = 0
         self.sp = 0
-
-program = [0x01, 0x02, 0x01, 0x03, 0x11, 0xe1, 0xff]
 
 vm = VM()
 
