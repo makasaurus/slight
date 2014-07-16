@@ -1,8 +1,5 @@
-ipush 1
-ipush 1
-and
-not
-ipush 5
-imul
+ipush 3
+ipush 2
+cmp
 iprint
 halt

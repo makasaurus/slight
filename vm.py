@@ -65,6 +65,13 @@ class VM:
                 a = self.pop()
                 self.push(0 if a else 1)
 
+            elif self.pMem[self.pc] == opcodes['CMP']:
+                a = self.pop()
+                b = self.pop()
+                if b < a: self.push(-1)
+                elif b  == a: self.push(0)
+                else: self.push(1)
+
             elif self.pMem[self.pc] == opcodes['IPRINT']:
                 print self.peek()
 

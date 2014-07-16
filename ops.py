@@ -9,6 +9,7 @@ opcodes = {
     'AND' : 0x21,
     'OR' : 0x22,
     'NOT' : 0x23,
+    'CMP' : 0x31,
     'IPRINT': 0xe1,
     'HALT' : 0xff
 }
