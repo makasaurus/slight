@@ -104,7 +104,7 @@ class VM:
         self.pc = 0
         self.sp = 0
 
-
+        
 
 lex = Lex()
 
