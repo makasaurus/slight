@@ -10,7 +10,9 @@ opcodes = {
     'OR' : 0x22,
     'NOT' : 0x23,
     'CMP' : 0x31,
+    'JMP': 0x40,
     'IPRINT': 0xe1,
+    'NOP' : 0xfe,
     'HALT' : 0xff
 }
 

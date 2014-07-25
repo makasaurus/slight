@@ -75,6 +75,14 @@ class VM:
             elif self.pMem[self.pc] == opcodes['IPRINT']:
                 print self.peek()
 
+            elif self.pMem[self.pc] == opcodes['JMP']:
+                a = self.pop()
+                self.pc = a - 1
+
+            elif self.pMem[self.pc] == opcodes['NOP']:
+                #do nothing, but need to make python think we are doing something
+                nothing = True
+
             elif self.pMem[self.pc] == opcodes['HALT']:
                 self.halt = 1
 
@@ -83,7 +91,7 @@ class VM:
                 self.halt = 1
 
             self.pc+=1
-            # print self.pc, '@', self.sp, self.stack
+            #print self.pc, '@', self.sp, self.stack
 
 
     def __init__(self):
@@ -95,6 +103,8 @@ class VM:
 
         self.pc = 0
         self.sp = 0
+
+
 
 lex = Lex()
 
