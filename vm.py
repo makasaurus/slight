@@ -7,6 +7,12 @@ class VM:
         for i,ins in enumerate(program):
             self.pMem[i]=ins
 
+    def start(self):
+        source = open("program.sl", 'r').read()
+        program = self.lex.encode(source)
+        self.loadProgram(program)
+        self.run()
+
     def push(self, x):
         self.sp+=1
         self.stack[self.sp] = x
@@ -76,8 +82,11 @@ class VM:
                 print self.peek()
 
             elif self.pMem[self.pc] == opcodes['JMP']:
-                a = self.pop()
-                self.pc = a - 1
+                print 'hit'
+                labelName = self.pMem[self.pc+1]
+                targetAddress = self.lex.label[labelName] -1
+
+                self.pc = targetAddress
 
             elif self.pMem[self.pc] == opcodes['NOP']:
                 #do nothing, but need to make python think we are doing something
@@ -87,6 +96,7 @@ class VM:
                 self.halt = 1
 
             else:
+                print self.pMem[self.pc]
                 print 'Unrecognized instruction, halting.'
                 self.halt = 1
 
@@ -104,15 +114,7 @@ class VM:
         self.pc = 0
         self.sp = 0
 
-        
-
-lex = Lex()
-
-source = open("program.sl", 'r').read()
-
-program =  lex.encode(source)
+        self.lex = Lex()
 
 vm = VM()
-
-vm.loadProgram(program)
-vm.run()
+vm.start()

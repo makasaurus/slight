@@ -16,6 +16,13 @@ opcodes = {
     'HALT' : 0xff
 }
 
+compilerCodes = [
+    'LABEL',
+    'JMP',
+    'CALL',
+    'RET'
+]
+
 codes = {}
 
 for k in opcodes:
