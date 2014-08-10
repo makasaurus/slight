@@ -82,7 +82,6 @@ class VM:
                 print self.peek()
 
             elif self.pMem[self.pc] == opcodes['JMP']:
-                print 'hit'
                 labelName = self.pMem[self.pc+1]
                 targetAddress = self.lex.label[labelName] -1
 
@@ -96,7 +95,6 @@ class VM:
                 self.halt = 1
 
             else:
-                print self.pMem[self.pc]
                 print 'Unrecognized instruction, halting.'
                 self.halt = 1
 
