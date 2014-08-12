@@ -27,8 +27,22 @@ class VM:
         return x
 
     def run(self):
+        if self.debug:
+            for item in self.pMem[0:20]:
+                if item in codes:
+                    print "(%s | %d)"%(codes[item], item),
+                else:
+                    print item,
 
         while not self.halt:
+
+            if self.debug:
+                print self.stack[0:20]
+                if self.pMem[self.pc] in codes:
+                    print "PC %d: %s"%(self.pc, codes[self.pMem[self.pc]])
+                else:
+                    print "PC %d:"(self.pc)
+
             if self.pMem[self.pc] == opcodes['IPUSH']:
                 self.pc+=1
                 self.push(self.pMem[self.pc])
@@ -79,6 +93,8 @@ class VM:
                 else: self.push(1)
 
             elif self.pMem[self.pc] == opcodes['IPRINT']:
+                if self.debug:
+                    print ">>>",
                 print self.peek()
 
             elif self.pMem[self.pc] == opcodes['JMP']:
@@ -86,6 +102,41 @@ class VM:
                 targetAddress = self.lex.label[labelName] -1
 
                 self.pc = targetAddress
+
+            elif self.pMem[self.pc] == opcodes['CALL']:
+                self.pc+=1
+                functionNameEncoded = self.pMem[self.pc]
+                self.pc+=1
+                argCount = int(self.pMem[self.pc])
+
+                #TODO don't use this array, but allocate space in system memory
+                swap = []
+
+                for i in xrange(0, argCount):
+                    swap += [self.pop()]
+
+                self.push(self.pc)
+
+                for item in reversed(swap):
+                    self.push(item)
+
+                self.pc = self.lex.function[functionNameEncoded]-1
+
+            elif self.pMem[self.pc] == opcodes['RET']:
+                self.pc+=1
+                argCount = int(self.pMem[self.pc])
+
+                swap = []
+
+                for i in xrange(0, argCount):
+                    swap += [self.pop()]
+
+                returnAddress = self.pop()
+
+                for item in reversed(swap):
+                    self.push(item)
+
+                self.pc = returnAddress
 
             elif self.pMem[self.pc] == opcodes['NOP']:
                 #do nothing, but need to make python think we are doing something
@@ -113,6 +164,12 @@ class VM:
         self.sp = 0
 
         self.lex = Lex()
+
+        #vars will have associative tuples, stored in the format of ('name', address)
+        self.vars = []
+        self.varScopes = []
+
+        self.debug = False
 
 vm = VM()
 vm.start()

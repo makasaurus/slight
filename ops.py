@@ -11,6 +11,8 @@ opcodes = {
     'NOT' : 0x23,
     'CMP' : 0x31,
     'JMP': 0x40,
+    'CALL' : 0x50,
+    'RET' : 0x51,
     'IPRINT': 0xe1,
     'NOP' : 0xfe,
     'HALT' : 0xff
@@ -19,6 +21,7 @@ opcodes = {
 compilerCodes = [
     'LABEL',
     'JMP',
+    'DEF',
     'CALL',
     'RET'
 ]

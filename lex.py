@@ -4,7 +4,7 @@ class Lex:
 
     def __init__(self):
         self.label = {}
-        
+        self.function = {}
 
     """
         source as a string
@@ -30,14 +30,34 @@ class Lex:
 
                         break;
 
+
+                    if token.upper() == 'DEF':
+                        defInt = int(tokens[i+1].encode("hex"), 16)
+                        tokens[i+1] = str(defInt)
+
+                        self.function[defInt] = len(byteCode)
+                        break;
+
+
+                    if token.upper() == 'CALL':
+                        defInt = int(tokens[i+1].encode("hex"), 16)
+                        tokens[i+1] = str(defInt)
+
+                        byteCode += [opcodes[token.upper()]]
+
                     if token.upper() == 'JMP':
                         tokenInt = int(tokens[i+1].encode("hex"), 16)
                         tokens[i+1] = str(tokenInt)
                         byteCode += [opcodes[token.upper()]]
 
+                    if token.upper() == 'RET':
+                        byteCode += [opcodes[token.upper()]]
 
                 elif token.upper() in opcodes:
                     byteCode += [opcodes[token.upper()]]
                 else:
                     byteCode += [int(token)]
         return byteCode
+
+    def encodeToken(self, token):
+        return int(token.encode("hex"), 16)
