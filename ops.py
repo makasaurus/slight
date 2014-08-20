@@ -13,6 +13,7 @@ opcodes = {
     'JMP': 0x40,
     'CALL' : 0x50,
     'RET' : 0x51,
+    'VAR' : 0x60,
     'IPRINT': 0xe1,
     'NOP' : 0xfe,
     'HALT' : 0xff

@@ -138,6 +138,37 @@ class VM:
 
                 self.pc = returnAddress
 
+            elif self.pMem[self.pc] == opcodes['VAR']:
+                self.pc += 1
+                varName = self.pMem[self.pc]
+
+                self.pc += 1
+                value = int(self.pMem[self.pc])
+
+                # find an empty address to store var to
+                # hopefully we find a quicker way of doing this, O(n) isn't very cool
+                # TODO make this quicker
+
+                varAddress = 0
+                addressFound = False
+                hit = False
+
+                while not addressFound:
+                    for varDict in self.vars:
+                        if varAddress in varDict.values():
+                          varAddress += 1
+                          hit = True
+                          break;
+                    if not hit:
+                        addressFound = True
+
+                # store var address in last dict
+                self.vars[len(self.vars)-1][varName] = varAddress
+
+                self.rwMem[varAddress] = value
+
+                print self.rwMem[0:10]
+
             elif self.pMem[self.pc] == opcodes['NOP']:
                 #do nothing, but need to make python think we are doing something
                 nothing = True
@@ -165,9 +196,8 @@ class VM:
 
         self.lex = Lex()
 
-        #vars will have associative tuples, stored in the format of ('name', address)
+        # vars will be stored in a set of dicts, one per scope level
         self.vars = []
-        self.varScopes = []
 
         self.debug = False
 

@@ -18,7 +18,7 @@ class Lex:
             if line[0:2] == "//":
                 comment = True
                 continue
-            
+
             tokens = line.split()
 
             for i, token in enumerate(tokens):
