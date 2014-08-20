@@ -58,10 +58,19 @@ class Lex:
                     if token.upper() == 'RET':
                         byteCode += [opcodes[token.upper()]]
 
+                    if token.upper() == 'VAR':
+                        byteCode += [opcodes[token.upper()]]
+                        tokens[i+1] = str(int(tokens[i+1].encode("hex"), 16))
+
+                    if token.upper() == 'VARST':
+                        byteCode += [opcodes[token.upper()]]
+                        tokens[i+1] = str(int(tokens[i+1].encode("hex"), 16))
+
                 elif token.upper() in opcodes:
                     byteCode += [opcodes[token.upper()]]
                 else:
                     byteCode += [int(token)]
+        print byteCode
         return byteCode
 
     def encodeToken(self, token):

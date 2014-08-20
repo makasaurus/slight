@@ -120,6 +120,9 @@ class VM:
                 for item in reversed(swap):
                     self.push(item)
 
+                #set up a new scope for variables
+                self.vars += [{}]
+
                 self.pc = self.lex.function[functionNameEncoded]-1
 
             elif self.pMem[self.pc] == opcodes['RET']:
@@ -136,9 +139,14 @@ class VM:
                 for item in reversed(swap):
                     self.push(item)
 
+
+                #remove local variable scope
+                self.vars.pop()
+
                 self.pc = returnAddress
 
             elif self.pMem[self.pc] == opcodes['VAR']:
+
                 self.pc += 1
                 varName = self.pMem[self.pc]
 
@@ -154,11 +162,44 @@ class VM:
                 hit = False
 
                 while not addressFound:
+                    hit = False
                     for varDict in self.vars:
                         if varAddress in varDict.values():
-                          varAddress += 1
-                          hit = True
-                          break;
+                            varAddress += 1
+                            hit = True
+                            break;
+                    if not hit:
+                        addressFound = True
+
+                # store var address in last dict
+                self.vars[len(self.vars)-1][varName] = varAddress
+
+                self.rwMem[varAddress] = value
+
+                print self.rwMem[0:10]
+
+            elif self.pMem[self.pc] == opcodes['VARST']:
+
+                self.pc += 1
+                varName = self.pMem[self.pc]
+
+                value = int(self.pop())
+
+                # find an empty address to store var to
+                # hopefully we find a quicker way of doing this, O(n) isn't very cool
+                # TODO make this quicker
+
+                varAddress = 0
+                addressFound = False
+                hit = False
+
+                while not addressFound:
+                    hit = False
+                    for varDict in self.vars:
+                        if varAddress in varDict.values():
+                            varAddress += 1
+                            hit = True
+                            break;
                     if not hit:
                         addressFound = True
 
@@ -182,6 +223,7 @@ class VM:
 
             self.pc+=1
             #print self.pc, '@', self.sp, self.stack
+            print self.vars
 
 
     def __init__(self):
@@ -197,7 +239,7 @@ class VM:
         self.lex = Lex()
 
         # vars will be stored in a set of dicts, one per scope level
-        self.vars = []
+        self.vars = [{}]
 
         self.debug = False
 

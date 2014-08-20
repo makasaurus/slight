@@ -14,6 +14,7 @@ opcodes = {
     'CALL' : 0x50,
     'RET' : 0x51,
     'VAR' : 0x60,
+    'VARST' : 0x61,
     'IPRINT': 0xe1,
     'NOP' : 0xfe,
     'HALT' : 0xff
@@ -24,7 +25,9 @@ compilerCodes = [
     'JMP',
     'DEF',
     'CALL',
-    'RET'
+    'RET',
+    'VAR',
+    'VARST'
 ]
 
 codes = {}
