@@ -176,9 +176,8 @@ class VM:
 
                 self.rwMem[varAddress] = value
 
-                print self.rwMem[0:10]
-
             elif self.pMem[self.pc] == opcodes['VARST']:
+                # Create var from a stack pop
 
                 self.pc += 1
                 varName = self.pMem[self.pc]
@@ -208,7 +207,19 @@ class VM:
 
                 self.rwMem[varAddress] = value
 
-                print self.rwMem[0:10]
+            elif self.pMem[self.pc] == opcodes['GET']:
+                # Get var and push to stack
+
+                self.pc += 1
+                varName = self.pMem[self.pc]
+
+
+                for varDict in self.vars:
+                    if varName in varDict.keys():
+                        self.push(self.rwMem[varDict[varName]])
+                        break;
+
+
 
             elif self.pMem[self.pc] == opcodes['NOP']:
                 #do nothing, but need to make python think we are doing something
@@ -223,7 +234,7 @@ class VM:
 
             self.pc+=1
             #print self.pc, '@', self.sp, self.stack
-            print self.vars
+            #print self.vars
 
 
     def __init__(self):

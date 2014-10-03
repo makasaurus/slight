@@ -15,6 +15,7 @@ opcodes = {
     'RET' : 0x51,
     'VAR' : 0x60,
     'VARST' : 0x61,
+    'GET' : 0x62,
     'IPRINT': 0xe1,
     'NOP' : 0xfe,
     'HALT' : 0xff
@@ -27,7 +28,8 @@ compilerCodes = [
     'CALL',
     'RET',
     'VAR',
-    'VARST'
+    'VARST',
+    'GET'
 ]
 
 codes = {}
