@@ -214,7 +214,6 @@ class VM:
                 varName = self.pMem[self.pc]
 
 
-                
                 for varDict in self.vars:
                     if varName in varDict.keys():
                         self.push(self.rwMem[varDict[varName]])
