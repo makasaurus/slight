@@ -219,7 +219,17 @@ class VM:
                         self.push(self.rwMem[varDict[varName]])
                         break;
 
+            elif self.pMem[self.pc] == opcodes['SET']:
+                # Change the value of an initialized variable
 
+                self.pc += 1
+
+                varName = self.pMem[self.pc]
+
+                for varDict in self.vars:
+                    if varName in varDict.keys():
+                        self.rwMem[varDict[varName]] = self.pop()
+                        break;
 
             elif self.pMem[self.pc] == opcodes['NOP']:
                 #do nothing, but need to make python think we are doing something

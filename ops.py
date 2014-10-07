@@ -16,6 +16,7 @@ opcodes = {
     'VAR' : 0x60,
     'VARST' : 0x61,
     'GET' : 0x62,
+    'SET' : 0x63,
     'IPRINT': 0xe1,
     'NOP' : 0xfe,
     'HALT' : 0xff
@@ -29,10 +30,12 @@ compilerCodes = [
     'RET',
     'VAR',
     'VARST',
-    'GET'
+    'GET',
+    'SET'
 ]
 
 codes = {}
 
+#generate codes, which will be our reverse lookup dict for speed purposes. small size, should be okay.
 for k in opcodes:
     codes[opcodes[k]]=k
