@@ -36,6 +36,6 @@ compilerCodes = [
 
 codes = {}
 
-#generate codes, which will be our reverse lookup dict for speed purposes. small size, should be okay.
+#generate codes, which will be our reverse lookup dict for speed purposes.  small size, should be okay.
 for k in opcodes:
     codes[opcodes[k]]=k
