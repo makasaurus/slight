@@ -10,6 +10,8 @@ opcodes = {
     'OR' : 0x22,
     'NOT' : 0x23,
     'CMP' : 0x31,
+    'JE' : 0x32,
+    'JNE' : 0x33,
     'JMP': 0x40,
     'CALL' : 0x50,
     'RET' : 0x51,
@@ -24,6 +26,8 @@ opcodes = {
 
 compilerCodes = [
     'LABEL',
+    'JE',
+    'JNE',
     'JMP',
     'DEF',
     'CALL',

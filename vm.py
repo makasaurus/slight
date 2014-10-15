@@ -92,6 +92,26 @@ class VM:
                 elif b  == a: self.push(0)
                 else: self.push(1)
 
+            elif self.pMem[self.pc] == opcodes['JE']:
+                a = self.pop()
+                b = self.pop()
+                if a == b:
+                    labelName = self.pMem[self.pc+1]
+                    targetAddress = self.lex.label[labelName] -1
+
+                    self.pc = targetAddress
+                self.pc += 1
+
+            elif self.pMem[self.pc] == opcodes['JNE']:
+                a = self.pop()
+                b = self.pop()
+                if a != b:
+                    labelName = self.pMem[self.pc+1]
+                    targetAddress = self.lex.label[labelName] -1
+
+                    self.pc = targetAddress
+                self.pc += 1
+
             elif self.pMem[self.pc] == opcodes['IPRINT']:
                 if self.debug:
                     print ">>>",

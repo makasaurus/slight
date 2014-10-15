@@ -47,7 +47,16 @@ class Lex:
                     if token.upper() == 'CALL':
                         defInt = int(tokens[i+1].encode("hex"), 16)
                         tokens[i+1] = str(defInt)
+                        byteCode += [opcodes[token.upper()]]
 
+                    if token.upper() == 'JE':
+                        defInt = int(tokens[i+1].encode("hex"), 16)
+                        tokens[i+1] = str(defInt)
+                        byteCode += [opcodes[token.upper()]]
+
+                    if token.upper() == 'JNE':
+                        defInt = int(tokens[i+1].encode("hex"), 16)
+                        tokens[i+1] = str(defInt)
                         byteCode += [opcodes[token.upper()]]
 
                     if token.upper() == 'JMP':
