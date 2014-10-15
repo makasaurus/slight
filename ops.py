@@ -19,6 +19,7 @@ opcodes = {
     'VARST' : 0x61,
     'GET' : 0x62,
     'SET' : 0x63,
+    'RAND' : 0x70,
     'IPRINT': 0xe1,
     'NOP' : 0xfe,
     'HALT' : 0xff

@@ -1,5 +1,6 @@
 from ops import *
 from lex import *
+import random
 
 
 class VM:
@@ -252,6 +253,12 @@ class VM:
                     if varName in varDict.keys():
                         self.rwMem[varDict[varName]] = self.pop()
                         break;
+
+            elif self.pMem[self.pc] == opcodes["RAND"]:
+                max = self.pop()
+                min = self.pop()
+
+                self.push(random.randrange(min, max))
 
             elif self.pMem[self.pc] == opcodes['NOP']:
                 #do nothing, but need to make python think we are doing something
