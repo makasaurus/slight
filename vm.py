@@ -41,7 +41,7 @@ class VM:
                 if self.pMem[self.pc] in codes:
                     print "PC %d: %s"%(self.pc, codes[self.pMem[self.pc]])
                 else:
-                    print "PC %d:"(self.pc)
+                    print "PC %d:"%(self.pc)
 
             if self.pMem[self.pc] == opcodes['IPUSH']:
                 self.pc+=1
@@ -100,7 +100,8 @@ class VM:
                     targetAddress = self.lex.label[labelName] -1
 
                     self.pc = targetAddress
-                self.pc += 1
+                else:
+                    self.pc += 1
 
             elif self.pMem[self.pc] == opcodes['JNE']:
                 a = self.pop()
@@ -110,7 +111,8 @@ class VM:
                     targetAddress = self.lex.label[labelName] -1
 
                     self.pc = targetAddress
-                self.pc += 1
+                else:
+                    self.pc += 1
 
             elif self.pMem[self.pc] == opcodes['IPRINT']:
                 if self.debug:
@@ -260,6 +262,7 @@ class VM:
 
             else:
                 print 'Unrecognized instruction, halting.'
+                print '\tins: %d' % self.pMem[self.pc]
                 self.halt = 1
 
             self.pc+=1
