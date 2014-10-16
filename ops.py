@@ -21,6 +21,7 @@ opcodes = {
     'SET' : 0x63,
     'RAND' : 0x70,
     'IPRINT': 0xe1,
+    'IIN': 0xe2,
     'NOP' : 0xfe,
     'HALT' : 0xff
 }

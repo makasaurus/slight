@@ -120,6 +120,10 @@ class VM:
                     print ">>>",
                 print self.peek()
 
+            elif self.pMem[self.pc] == opcodes['IIN']:
+                inputInt = input()
+                self.push(inputInt)
+
             elif self.pMem[self.pc] == opcodes['JMP']:
                 labelName = self.pMem[self.pc+1]
                 targetAddress = self.lex.label[labelName] -1
