@@ -172,7 +172,7 @@ class VM:
 
                 self.pc = returnAddress
 
-            elif self.pMem[self.pc] == opcodes['VAR']:
+            elif self.pMem[self.pc] == opcodes['IVAR']:
 
                 self.pc += 1
                 varName = self.pMem[self.pc]
@@ -203,7 +203,7 @@ class VM:
 
                 self.rwMem[varAddress] = value
 
-            elif self.pMem[self.pc] == opcodes['VARST']:
+            elif self.pMem[self.pc] == opcodes['IVARST']:
                 # Create var from a stack pop
 
                 self.pc += 1
@@ -234,7 +234,7 @@ class VM:
 
                 self.rwMem[varAddress] = value
 
-            elif self.pMem[self.pc] == opcodes['GET']:
+            elif self.pMem[self.pc] == opcodes['IGET']:
                 # Get var and push to stack
 
                 self.pc += 1
@@ -246,7 +246,7 @@ class VM:
                         self.push(self.rwMem[varDict[varName]])
                         break;
 
-            elif self.pMem[self.pc] == opcodes['SET']:
+            elif self.pMem[self.pc] == opcodes['ISET']:
                 # Change the value of an initialized variable
 
                 self.pc += 1

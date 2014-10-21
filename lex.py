@@ -67,19 +67,19 @@ class Lex:
                     if token.upper() == 'RET':
                         byteCode += [opcodes[token.upper()]]
 
-                    if token.upper() == 'VAR':
+                    if token.upper() == 'IVAR':
                         byteCode += [opcodes[token.upper()]]
                         tokens[i+1] = str(int(tokens[i+1].encode("hex"), 16))
 
-                    if token.upper() == 'VARST':
+                    if token.upper() == 'IVARST':
                         byteCode += [opcodes[token.upper()]]
                         tokens[i+1] = str(int(tokens[i+1].encode("hex"), 16))
 
-                    if token.upper() == 'GET':
+                    if token.upper() == 'IGET':
                         byteCode += [opcodes[token.upper()]]
                         tokens[i+1] = str(int(tokens[i+1].encode("hex"), 16))
 
-                    if token.upper() == 'SET':
+                    if token.upper() == 'ISET':
                         byteCode += [opcodes[token.upper()]]
                         tokens[i+1] = str(int(tokens[i+1].encode("hex"), 16))
 
