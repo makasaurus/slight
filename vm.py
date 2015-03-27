@@ -97,6 +97,7 @@ class VM:
                 a = self.pop()
                 self.push(0 if a else 1)
 
+            #TODO change to ICMP as it should only compare ints
             elif self.pMem[self.pc] == opcodes['CMP']:
                 a = self.pop()
                 b = self.pop()
