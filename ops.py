@@ -13,7 +13,7 @@ opcodes = {
     'IMUL' : 0x13,
 	'IDIV' : 0x14,
     'CPUSH' : 0x15,
-    'CPOP' : 0x15,
+    'CPOP' : 0x16,
     'AND' : 0x21,
     'OR' : 0x22,
     'NOT' : 0x23,
