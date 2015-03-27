@@ -44,6 +44,9 @@ class VM:
                 else:
                     print "PC %d:"%(self.pc)
 
+
+            # TODO find some more elegant way of switching self.pMem[self.pc], too much going on here
+
             if self.pMem[self.pc] == opcodes['IPUSH']:
                 self.pc+=1
                 self.push(self.pMem[self.pc])
