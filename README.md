@@ -3,8 +3,11 @@ slight
 
 slight is a very small system with aims of project oberon.
 
-==ops                                   
-|     Op     | Op code | Arguments | Description 
+
+Ops 
+-----
+
+|     Op     | Op code | Arguments | Description |                                                                                                                                                              
 |------------|---------|-----------|--------------------------------------------------------|
 |`**IPUSH**` |  `0x01` |     A     | Pushes integer A on to the top of the stack
 | `**IPOP**` |  `0x02` |   *none*  | Removes the top-most entry from the stack. 
