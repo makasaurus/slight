@@ -2,7 +2,15 @@ from ops import *
 from lex import *
 import random
 
+"""
 
+VM is the virtual machine that runs the code.
+
+There are many 'cheat' points, i.e. memory stores any size string in a single memory space. Also, there is a good
+amount of 'magic' points as well, i.e. where an int is converted to a string using python methods. The goal is to remove
+all of the 'cheating magic'.
+
+"""
 class VM:
     def loadProgram(self, program):
         for i,ins in enumerate(program):

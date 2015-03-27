@@ -1,3 +1,9 @@
+"""
+
+Ops is the dict object that allows for the lookup of and reverse-lookup of each op code.
+
+"""
+
 #TODO redo codes to follow groups - i.e. these use variables, these compare variables, etc. more cohesive.
 opcodes = {
     'IPUSH': 0x01,

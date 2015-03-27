@@ -1,5 +1,16 @@
 from ops import *
 
+"""
+
+Lex converts the input file to be ran into executable bytecode. If a token indicates that it has a non-reserved word
+following it, such as a variable name or a string, the lexer will also convert this into usable bytecode. This is
+clearly not the best route to do this, as we could offload strings into memory.
+
+Lex should eventually be expanded to enable it to run in an interactive mode, where you can type code into an
+interactive console.
+
+"""
+
 class Lex:
 
     def __init__(self):
@@ -10,6 +21,7 @@ class Lex:
         source as a string
     """
     def encode(self, source):
+        # TODO create interactive mode of encode
         byteCode = []
         lines = source.split("\n")
 
