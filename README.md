@@ -25,9 +25,9 @@ iprint
 
 |     Op     | Op code | Pushed Args  | Named Args | Description |                                                                                                                                                              
 | -----------|---------|--------------|------------|--------------------------------------------|
-|  *IPUSH**  |  `0x01` |              | num        | Pushes integer num on to the top of the stack.
-|  **IPOP**  |  `0x02` |              |            |  Removes the top-most entry from the stack. 
-|  **IADD**  |  `0x11` | int A, B     |            |  Stores A + B to the top of the stack.
+|  **IPUSH** |  `0x01` |              | num        | Pushes integer num on to the top of the stack.
+|  **IPOP**  |  `0x02` |              |            | Removes the top-most entry from the stack. 
+|  **IADD**  |  `0x11` | int A, B     |            | Stores A + B to the top of the stack.
 |  **ISUB**  |  `0x12` | int A, B     |            | Stores A-B to the top of the stack.
 |  **IMUL**  |  `0x13` | int A, B     |            | Stores A*B to the top of the stack.
 |  **IDIV**  |  `0x14` | int A, B     |            | Stores A/B to the top of the stack.
