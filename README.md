@@ -24,16 +24,20 @@ Ops
 -----
 
 Ops are used as follows:
-```push A
+```
+push A
 push B
 push C
-<op name> <named arg>```
+<op name> <named arg>
+```
 
 For example, to output the result of ( 1 || 0 ) to the top of the stack:
-```ipush 1
+```
+ipush 1
 ipush 0
 or
-iprint```
+iprint
+```
 
 
 
