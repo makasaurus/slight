@@ -1,18 +1,19 @@
 slight
 ======
 
-slight is a very small system with aims of project oberon.
+slight is a very small system, starting with the creation of a bytecode and aiming to end with the implementation of
+the CPU on an FPGA. This project is inspired by project oberon.
 
 slight:
 * is stack based
 * has non-dynamic program memory
-* uses built-in variable lookup tables
-* has an n-bit vm
-* allows for function overloading at byte-code level
+* has an n-bit emulator
+* allows for functions, function overloading, and variable scopes at byte-code level
 * is very simple
 
 goals:
-* get vm completed
+* complete emulator
+* create cli terminal to code in real time
 * run terminal graphics and I/O from machine
 * run 'complex' graphics
 * write a high-level OOP language, named donut, that compiles down to bytecode.
