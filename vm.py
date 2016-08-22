@@ -1,6 +1,8 @@
 from ops import *
 from lex import *
 import random
+import console
+
 
 """
 
@@ -20,6 +22,7 @@ class VM:
         source = open("program.sl", 'r').read()
         program = self.lex.encode(source)
         self.loadProgram(program)
+        print
         self.run()
 
     def push(self, x):
@@ -61,6 +64,9 @@ class VM:
 
             elif self.pMem[self.pc] == opcodes['IPOP']:
                 self.pop()
+
+            elif self.pMem[self.pc] == opcodes['ICPY']:
+                self.push(self.peek())
 
             elif self.pMem[self.pc] == opcodes['IADD']:
                 a = self.pop()
@@ -132,9 +138,21 @@ class VM:
                     print ">>>",
                 print self.peek()
 
+            elif self.pMem[self.pc] == opcodes['CPRINT']:
+                if self.debug:
+                    print ">>>",
+                self.console.putchar(chr(self.peek()))
+
+            elif self.pMem[self.pc] == opcodes['CDELETE']:
+                self.console.delete_char()
+
             elif self.pMem[self.pc] == opcodes['IIN']:
                 inputInt = input()
                 self.push(inputInt)
+
+            elif self.pMem[self.pc] == opcodes['CIN']:
+                inputOrd = ord(self.console.getchar())
+                self.push(inputOrd)
 
             elif self.pMem[self.pc] == opcodes['JMP']:
                 labelName = self.pMem[self.pc+1]
@@ -307,6 +325,8 @@ class VM:
 
         # vars will be stored in a set of dicts, one per scope level
         self.vars = [{}]
+
+        self.console = console.tinyconsole()
 
         self.debug = False
 

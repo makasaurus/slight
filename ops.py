@@ -8,6 +8,7 @@ Ops is the dict object that allows for the lookup of and reverse-lookup of each 
 opcodes = {
     'IPUSH': 0x01,
     'IPOP': 0x02,
+    'ICPY': 0x03,
 	'IADD' : 0x11,
 	'ISUB' : 0x12,
     'IMUL' : 0x13,
@@ -34,7 +35,9 @@ opcodes = {
     'RAND' : 0x70,
     'IPRINT': 0xe1,
     'CPRINT' : 0xe2,
-    'IIN': 0xe2,
+    'CDELETE' : 0xe3,
+    'IIN': 0xea,
+    'CIN': 0xeb,
     'NOP' : 0xfe,
     'HALT' : 0xff
 }
