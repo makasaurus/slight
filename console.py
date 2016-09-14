@@ -1,5 +1,6 @@
 import msvcrt
 import sys
+import os
 
 
 class tinyconsole:
@@ -9,6 +10,7 @@ class tinyconsole:
         self.escape_key = '\x1b'
         self.enter_key = '\r'
 
+        self.clear_console()
         #self.dumb_console()
 
     def update_display(self, ch):
@@ -49,6 +51,10 @@ class tinyconsole:
 
     def delete_char(self):
         self.putchar('\b \b')
+
+    def clear_console(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
+
 
 
 ##figure out how to name things right pls / dynamic mem management
