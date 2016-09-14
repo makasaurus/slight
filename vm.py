@@ -26,11 +26,12 @@ class VM:
         self.run()
 
     def push(self, x):
-        self.sp+=1
+        self.sp += 1
         self.stack[self.sp] = x
 
     def pop(self):
         x = self.stack[self.sp]
+        self.stack[self.sp] = None
         self.sp-=1
         return x
 
@@ -49,11 +50,13 @@ class VM:
         while not self.halt:
 
             if self.debug:
-                print self.stack[0:20]
+                for cell in self.stack[0:10]: print "%s\t"%(str(cell)),
+                print
                 if self.pMem[self.pc] in codes:
                     print "PC %d: %s"%(self.pc, codes[self.pMem[self.pc]])
                 else:
-                    print "PC %d:"%(self.pc)
+                    print "PC %d"%(self.pc)
+                print "SP %d"%(self.sp)
 
 
             # TODO find some more elegant way of switching self.pMem[self.pc], too much going on here
@@ -141,7 +144,7 @@ class VM:
             elif self.pMem[self.pc] == opcodes['CPRINT']:
                 if self.debug:
                     print ">>>",
-                self.console.putchar(chr(self.peek()))
+                self.console.update_display(chr(self.peek()))
 
             elif self.pMem[self.pc] == opcodes['CDELETE']:
                 self.console.delete_char()
@@ -157,7 +160,6 @@ class VM:
             elif self.pMem[self.pc] == opcodes['JMP']:
                 labelName = self.pMem[self.pc+1]
                 targetAddress = self.lex.label[labelName] -1
-
                 self.pc = targetAddress
 
             elif self.pMem[self.pc] == opcodes['CALL']:
@@ -303,7 +305,7 @@ class VM:
 
             else:
                 print 'Unrecognized instruction, halting.'
-                print '\tins: %d' % self.pMem[self.pc]
+                print '\tins: %s' % self.pMem[self.pc]
                 self.halt = 1
 
             self.pc+=1
@@ -319,7 +321,7 @@ class VM:
         self.halt = 0
 
         self.pc = 0
-        self.sp = 0
+        self.sp = -1
 
         self.lex = Lex()
 
@@ -331,4 +333,6 @@ class VM:
         self.debug = False
 
 vm = VM()
+#vm.debug = True
+#vm.debug = False
 vm.start()

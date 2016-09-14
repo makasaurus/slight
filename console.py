@@ -44,9 +44,11 @@ class tinyconsole:
 
     def putchar(self, ch):
         sys.stdout.write(ch)
+        self.update_buffer()
+
 
     def delete_char(self):
-        self.putchar('\b\b\b\b')
+        self.putchar('\b \b')
 
 
 ##figure out how to name things right pls / dynamic mem management

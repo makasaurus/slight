@@ -34,6 +34,9 @@ class Lex:
             tokens = line.split()
 
             for i, token in enumerate(tokens):
+                if token[0:2] == "//":
+                    comment = True
+                    break
                 if token.upper() in compilerCodes:
 
                     if token.upper() == 'LABEL':
