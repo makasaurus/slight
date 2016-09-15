@@ -65,6 +65,8 @@ iprint
 |  **IVARST** |  `0x61` | A            | varname      | Creates variable `varname` set to arg A
 |  **IGET**   |  `0x62` |              | varname      | Pushes value of `varname` to the top of the stack.
 |  **ISET**   |  `0x62` | A            | varname      | Updates value of `varname` to arg A.
+|  **SPGET**  |  `0x63` | int A        |              | Pushes value of the stack pointer(top of stack) to the top of the stack.
+|  **SPSET**  |  `0x64` | int A        |              | Updates value of the stack pointer stack.
 |  **RAND**   |  `0x70` | A, B         |              | Pushes random integer x to the top of the stack, with A <= x < B.
 |  **IPRINT** |  `0xe1` | A            |              | Prints integer A to the terminal
 |  **IIN**    |  `0xe2` |              |              | Pushes integer terminal user input to the top of the stack

@@ -290,11 +290,13 @@ class VM:
                         self.rwMem[varDict[varName]] = self.pop()
                         break;
 
-            elif self.pMem[self.pc] == opcodes["RAND"]:
-                max = self.pop()
-                min = self.pop()
+            elif self.pMem[self.pc] == opcodes['SPGET']:
+                # Get var and push to stack
+                self.push(self.sp)
 
-                self.push(random.randrange(min, max))
+            elif self.pMem[self.pc] == opcodes['SPSET']:
+                # Change the value of an initialized variable
+                self.sp = self.pop()
 
             elif self.pMem[self.pc] == opcodes['NOP']:
                 #do nothing, but need to make python think we are doing something

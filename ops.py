@@ -30,8 +30,8 @@ opcodes = {
     'IGET' : 0x62,
     'ISET' : 0x63,
     'CVARST' : 0x64, #TODO create cvar commands after buses and memory are figured out
-    'CGET' : 0x65,
-    'CSET' : 0x66,
+    'SPGET' : 0x65,
+    'SPSET' : 0x66,
     'RAND' : 0x70,
     'IPRINT': 0xe1,
     'CPRINT' : 0xe2,
