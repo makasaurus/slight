@@ -50,15 +50,12 @@ class Lex:
 
                         break;
 
-
                     if token.upper() == 'DEF':
                         defInt = int(tokens[i+1].encode("hex"), 16)
                         tokens[i+1] = str(defInt)
 
                         self.function[defInt] = len(byteCode)
                         break;
-
-
                     if token.upper() == 'CALL':
                         defInt = int(tokens[i+1].encode("hex"), 16)
                         tokens[i+1] = str(defInt)
@@ -97,7 +94,6 @@ class Lex:
                     if token.upper() == 'ISET':
                         byteCode += [opcodes[token.upper()]]
                         tokens[i+1] = str(int(tokens[i+1].encode("hex"), 16))
-
 
                 elif token.upper() in opcodes:
                     byteCode += [opcodes[token.upper()]]
