@@ -62,248 +62,91 @@ class VM:
             # TODO find some more elegant way of switching self.pMem[self.pc], too much going on here
 
             if self.pMem[self.pc] == opcodes['IPUSH']:
-                self.pc+=1
-                self.push(self.pMem[self.pc])
+                self._ipush()
 
             elif self.pMem[self.pc] == opcodes['IPOP']:
-                self.pop()
+                self._ipop()
 
             elif self.pMem[self.pc] == opcodes['ICPY']:
-                self.push(self.peek())
+                self._icpy()
 
             elif self.pMem[self.pc] == opcodes['IADD']:
-                a = self.pop()
-                b = self.pop()
-                self.push(a+b)
+                self._iadd()
 
             elif self.pMem[self.pc] == opcodes['ISUB']:
-                a = self.pop()
-                b = self.pop()
-                print b,a
-                self.push(b-a)
+                self._isub()
 
             elif self.pMem[self.pc] == opcodes['IMUL']:
-                a = self.pop()
-                b = self.pop()
-                self.push(a*b)
+                self._imul()
 
             elif self.pMem[self.pc] == opcodes['IDIV']:
-                a = self.pop()
-                b = self.pop()
-                self.push(int(b/a))
+                self._idiv()
 
             elif self.pMem[self.pc] == opcodes['AND']:
-                a = self.pop()
-                b = self.pop()
-                self.push(1 if a and b else 0)
+                self._and()
 
             elif self.pMem[self.pc] == opcodes['OR']:
-                a = self.pop()
-                b = self.pop()
-                self.push(1 if a or b else 0)
+                self._or()
 
             elif self.pMem[self.pc] == opcodes['NOT']:
-                a = self.pop()
-                self.push(0 if a else 1)
+                self._not()
 
-            #TODO change to ICMP as it should only compare ints
             elif self.pMem[self.pc] == opcodes['CMP']:
-                a = self.pop()
-                b = self.pop()
-                if b < a: self.push(-1)
-                elif b  == a: self.push(0)
-                else: self.push(1)
+                self._cmp()
 
             elif self.pMem[self.pc] == opcodes['JE']:
-                a = self.pop()
-                b = self.pop()
-                if a == b:
-                    labelName = self.pMem[self.pc+1]
-                    targetAddress = self.lex.label[labelName] -1
-
-                    self.pc = targetAddress
-                else:
-                    self.pc += 1
+                self._je()
 
             elif self.pMem[self.pc] == opcodes['JNE']:
-                a = self.pop()
-                b = self.pop()
-                if a != b:
-                    labelName = self.pMem[self.pc+1]
-                    targetAddress = self.lex.label[labelName] -1
-
-                    self.pc = targetAddress
-                else:
-                    self.pc += 1
+                self._jne()
 
             elif self.pMem[self.pc] == opcodes['IPRINT']:
-                if self.debug:
-                    print ">>>",
-                print self.peek()
+                self._iprint()
 
             elif self.pMem[self.pc] == opcodes['CPRINT']:
-                if self.debug:
-                    print ">>>",
-                self.console.update_display(chr(self.peek()))
+                self._cprint()
 
             elif self.pMem[self.pc] == opcodes['CDELETE']:
-                self.console.delete_char()
+                self._cdelete()
 
             elif self.pMem[self.pc] == opcodes['IIN']:
-                inputInt = input()
-                self.push(inputInt)
+                self._iin()
 
             elif self.pMem[self.pc] == opcodes['CIN']:
-                inputOrd = ord(self.console.getchar())
-                self.push(inputOrd)
+                self._cin()
 
             elif self.pMem[self.pc] == opcodes['JMP']:
-                labelName = self.pMem[self.pc+1]
-                targetAddress = self.lex.label[labelName] -1
-                self.pc = targetAddress
+                self._jmp()
 
             elif self.pMem[self.pc] == opcodes['CALL']:
-                self.pc+=1
-                functionNameEncoded = self.pMem[self.pc]
-                self.pc+=1
-                argCount = int(self.pMem[self.pc])
-
-                #TODO don't use this array, but allocate space in system memory
-                swap = []
-
-                for i in xrange(0, argCount):
-                    swap += [self.pop()]
-
-                self.push(self.pc)
-
-                for item in reversed(swap):
-                    self.push(item)
-
-                #set up a new scope for variables
-                self.vars += [{}]
-
-                self.pc = self.lex.function[functionNameEncoded]-1
+                self._call()
 
             elif self.pMem[self.pc] == opcodes['RET']:
-                self.pc+=1
-                argCount = int(self.pMem[self.pc])
-
-                swap = []
-
-                for i in xrange(0, argCount):
-                    swap += [self.pop()]
-
-                returnAddress = self.pop()
-
-                for item in reversed(swap):
-                    self.push(item)
-
-
-                #remove local variable scope
-                self.vars.pop()
-
-                self.pc = returnAddress
+                self._ret()
 
             elif self.pMem[self.pc] == opcodes['IVAR']:
-
-                self.pc += 1
-                varName = self.pMem[self.pc]
-
-                self.pc += 1
-                value = int(self.pMem[self.pc])
-
-                # find an empty address to store var to
-                # hopefully we find a quicker way of doing this, O(n) isn't very cool
-                # TODO make this quicker
-
-                varAddress = 0
-                addressFound = False
-                hit = False
-
-                while not addressFound:
-                    hit = False
-                    for varDict in self.vars:
-                        if varAddress in varDict.values():
-                            varAddress += 1
-                            hit = True
-                            break;
-                    if not hit:
-                        addressFound = True
-
-                # store var address in last dict
-                self.vars[len(self.vars)-1][varName] = varAddress
-
-                self.rwMem[varAddress] = value
+                self._ivar()
 
             elif self.pMem[self.pc] == opcodes['IVARST']:
-                # Create var from a stack pop
-
-                self.pc += 1
-                varName = self.pMem[self.pc]
-
-                value = int(self.pop())
-
-                # find an empty address to store var to
-                # hopefully we find a quicker way of doing this, O(n) isn't very cool
-                # TODO make this quicker
-
-                varAddress = 0
-                addressFound = False
-                hit = False
-
-                while not addressFound:
-                    hit = False
-                    for varDict in self.vars:
-                        if varAddress in varDict.values():
-                            varAddress += 1
-                            hit = True
-                            break;
-                    if not hit:
-                        addressFound = True
-
-                # store var address in last dict
-                self.vars[len(self.vars)-1][varName] = varAddress
-
-                self.rwMem[varAddress] = value
+                self._ivarst()
 
             elif self.pMem[self.pc] == opcodes['IGET']:
-                # Get var and push to stack
-
-                self.pc += 1
-                varName = self.pMem[self.pc]
-
-
-                for varDict in self.vars:
-                    if varName in varDict.keys():
-                        self.push(self.rwMem[varDict[varName]])
-                        break;
+                self._iget()
 
             elif self.pMem[self.pc] == opcodes['ISET']:
-                # Change the value of an initialized variable
-
-                self.pc += 1
-
-                varName = self.pMem[self.pc]
-
-                for varDict in self.vars:
-                    if varName in varDict.keys():
-                        self.rwMem[varDict[varName]] = self.pop()
-                        break;
+                self._iset()
 
             elif self.pMem[self.pc] == opcodes['SPGET']:
-                # Get var and push to stack
-                self.push(self.sp)
+                self._spget()
 
             elif self.pMem[self.pc] == opcodes['SPSET']:
-                # Change the value of an initialized variable
-                self.sp = self.pop()
+                self._spset()
 
             elif self.pMem[self.pc] == opcodes['NOP']:
-                #do nothing, but need to make python think we are doing something
-                nothing = True
+                self._nop()
 
             elif self.pMem[self.pc] == opcodes['HALT']:
-                self.halt = 1
+                self._halt()
 
             else:
                 print 'Unrecognized instruction, halting.'
@@ -314,6 +157,250 @@ class VM:
             #print self.pc, '@', self.sp, self.stack
             #print self.vars
 
+    def _ipush(self):
+        self.push()
+
+    def _ipop(self):
+        self.pop()
+
+    def _icpy(self):
+        self.push(self.peek())
+
+    def _iadd(self):
+        a = self.pop()
+        b = self.pop()
+        self.push(a + b)
+
+    def _isub(self):
+        a = self.pop()
+        b = self.pop()
+        print b, a
+        self.push(b - a)
+
+    def _imul(self):
+        a = self.pop()
+        b = self.pop()
+        self.push(a * b)
+
+    def _idiv(self):
+        a = self.pop()
+        b = self.pop()
+        self.push(int(b / a))
+
+    def _and(self):
+        a = self.pop()
+        b = self.pop()
+        self.push(1 if a and b else 0)
+
+    def _or(self):
+        a = self.pop()
+        b = self.pop()
+        self.push(1 if a or b else 0)
+
+    def _not(self):
+        a = self.pop()
+        self.push(0 if a else 1)
+
+        # TODO change to ICMP as it should only compare ints
+
+    def _cmp(self):
+        a = self.pop()
+        b = self.pop()
+        if b < a:
+            self.push(-1)
+        elif b == a:
+            self.push(0)
+        else:
+            self.push(1)
+
+    def _je(self):
+        a = self.pop()
+        b = self.pop()
+        if a == b:
+            labelName = self.pMem[self.pc + 1]
+            targetAddress = self.lex.label[labelName] - 1
+
+            self.pc = targetAddress
+        else:
+            self.pc += 1
+
+    def _jne(self):
+        a = self.pop()
+        b = self.pop()
+        if a != b:
+            labelName = self.pMem[self.pc + 1]
+            targetAddress = self.lex.label[labelName] - 1
+
+            self.pc = targetAddress
+        else:
+            self.pc += 1
+
+    def _iprint(self):
+        if self.debug:
+            print ">>>",
+        print self.peek()
+
+    def _cprint(self):
+        if self.debug:
+            print ">>>",
+        self.console.update_display(chr(self.peek()))
+
+    def _cdelete(self):
+        self.console.delete_char()
+
+    def _iin(self):
+        inputInt = input()
+        self.push(inputInt)
+
+    def _cin(self):
+        inputOrd = ord(self.console.getchar())
+        self.push(inputOrd)
+
+    def _jmp(self):
+        labelName = self.pMem[self.pc + 1]
+        targetAddress = self.lex.label[labelName] - 1
+        self.pc = targetAddress
+
+    def _call(self):
+        self.pc += 1
+        functionNameEncoded = self.pMem[self.pc]
+        self.pc += 1
+        argCount = int(self.pMem[self.pc])
+
+        # TODO don't use this array, but allocate space in system memory
+        swap = []
+
+        for i in xrange(0, argCount):
+            swap += [self.pop()]
+
+        self.push(self.pc)
+
+        for item in reversed(swap):
+            self.push(item)
+
+        # set up a new scope for variables
+        self.vars += [{}]
+
+        self.pc = self.lex.function[functionNameEncoded] - 1
+
+    def _ret(self):
+        self.pc += 1
+        argCount = int(self.pMem[self.pc])
+
+        swap = []
+
+        for i in xrange(0, argCount):
+            swap += [self.pop()]
+
+        returnAddress = self.pop()
+
+        for item in reversed(swap):
+            self.push(item)
+
+        # remove local variable scope
+        self.vars.pop()
+
+        self.pc = returnAddress
+
+    def _ivar(self):
+
+        self.pc += 1
+        varName = self.pMem[self.pc]
+
+        self.pc += 1
+        value = int(self.pMem[self.pc])
+
+        # find an empty address to store var to
+        # hopefully we find a quicker way of doing this, O(n) isn't very cool
+        # TODO make this quicker
+
+        varAddress = 0
+        addressFound = False
+        hit = False
+
+        while not addressFound:
+            hit = False
+            for varDict in self.vars:
+                if varAddress in varDict.values():
+                    varAddress += 1
+                    hit = True
+                    break;
+            if not hit:
+                addressFound = True
+
+        # store var address in last dict
+        self.vars[len(self.vars) - 1][varName] = varAddress
+
+        self.rwMem[varAddress] = value
+
+    def _ivarst(self):
+        # Create var from a stack pop
+
+        self.pc += 1
+        varName = self.pMem[self.pc]
+
+        value = int(self.pop())
+
+        # find an empty address to store var to
+        # hopefully we find a quicker way of doing this, O(n) isn't very cool
+        # TODO make this quicker
+
+        varAddress = 0
+        addressFound = False
+        hit = False
+
+        while not addressFound:
+            hit = False
+            for varDict in self.vars:
+                if varAddress in varDict.values():
+                    varAddress += 1
+                    hit = True
+                    break;
+            if not hit:
+                addressFound = True
+
+        # store var address in last dict
+        self.vars[len(self.vars) - 1][varName] = varAddress
+
+        self.rwMem[varAddress] = value
+
+    def _iget(self):
+        # Get var and push to stack
+
+        self.pc += 1
+        varName = self.pMem[self.pc]
+
+        for varDict in self.vars:
+            if varName in varDict.keys():
+                self.push(self.rwMem[varDict[varName]])
+                break;
+
+    def _iset(self):
+        # Change the value of an initialized variable
+
+        self.pc += 1
+
+        varName = self.pMem[self.pc]
+
+        for varDict in self.vars:
+            if varName in varDict.keys():
+                self.rwMem[varDict[varName]] = self.pop()
+                break;
+
+    def _spget(self):
+        # Get var and push to stack
+        self.push(self.sp)
+
+    def _spset(self):
+        # Change the value of an initialized variable
+        self.sp = self.pop()
+
+    def _nop(self):
+        # do nothing, but need to make python think we are doing something
+        nothing = True
+
+    def _halt(self):
+        self.halt = 1
 
     def __init__(self):
         self.stack = [None]*(1024*4)
