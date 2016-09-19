@@ -158,7 +158,8 @@ class VM:
             #print self.vars
 
     def _ipush(self):
-        self.push()
+        self.pc += 1
+        self.push(self.pMem[self.pc])
 
     def _ipop(self):
         self.pop()
