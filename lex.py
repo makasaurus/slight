@@ -99,7 +99,6 @@ class Lex:
                     byteCode += [opcodes[token.upper()]]
                 else:
                     byteCode += [int(token)]
-        print byteCode
         return byteCode
 
     def encodeToken(self, token):
