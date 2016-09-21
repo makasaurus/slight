@@ -11,7 +11,8 @@ class tinyconsole:
         self.enter_key = '\r'
 
         self.clear_console()
-        #self.dumb_console()
+
+        self.init_print()
 
     def update_display(self, ch):
         ch = '\b \b' if ch == '\x08' else ch
@@ -55,7 +56,9 @@ class tinyconsole:
     def clear_console(self):
         os.system('cls' if os.name == 'nt' else 'clear')
 
-
+    def init_print(self):
+        message = """\n    tiny term\n___________________"""
+        print message
 
 ##figure out how to name things right pls / dynamic mem management
 
