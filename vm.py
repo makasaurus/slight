@@ -1,5 +1,6 @@
 from ops import *
 from lex import *
+from memory import *
 import random
 import console
 
@@ -334,6 +335,31 @@ class VM:
 
         self.rwMem[varAddress] = value
 
+    # def _ivarn(self):
+    #
+    #     self.pc += 1
+    #     varName = self.pMem[self.pc]
+    #
+    #     self.pc += 1
+    #     length = int(self.pMem[self.pc])
+    #
+    #     # find an empty address to store var to
+    #     # hopefully we find a quicker way of doing this, O(n) isn't very cool
+    #     # TODO make this quicker
+    #
+    #     varAddress = 0
+    #     addressFound = False
+    #     hit = False
+    #
+    #     for i, cell in enumerate(self.pMem):
+    #
+    #
+    #     # store var address in last dict
+    #     self.vars[len(self.vars) - 1][varName] = varAddress
+    #
+    #     self.rwMem[varAddress] = value
+    # # endregion
+
     def _ivarst(self):
         # Create var from a stack pop
 
@@ -404,9 +430,10 @@ class VM:
         self.halt = 1
 
     def __init__(self):
-        self.stack = [None]*(1024*4)
-        self.pMem = [None]*(1024*4)
-        self.rwMem = [None]*(1024*4)
+        self.memory = [None]*(1024 * 8) # 8k total memory
+        self.stack = subset(self.memory, 0, 1024 * 2)
+        self.pMem =  subset(self.memory, 1024 * 2, 1024 * 4)
+        self.rwMem = subset(self.memory, 1024 * 4, 1024 * 8)
 
         self.halt = 0
 

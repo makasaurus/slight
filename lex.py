@@ -83,6 +83,10 @@ class Lex:
                         byteCode += [opcodes[token.upper()]]
                         tokens[i+1] = str(int(tokens[i+1].encode("hex"), 16))
 
+                    if token.upper() == 'IVARN':
+                        byteCode += [opcodes[token.upper()]]
+                        tokens[i + 1] = str(int(tokens[i + 1].encode("hex"), 16))
+
                     if token.upper() == 'IVARST':
                         byteCode += [opcodes[token.upper()]]
                         tokens[i+1] = str(int(tokens[i+1].encode("hex"), 16))

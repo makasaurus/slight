@@ -52,8 +52,10 @@ compilerCodes = [
     'DEF',
     'CALL',
     'RET',
+    'IVARN'
     'IVAR',
     'IVARST',
+    'PTR'
     'IGET',
     'ISET'
 ]
